@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - CalorieCompass</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to CalorieCompass</h1>
+        
+        <div th:if="${user}" class="user-info">
+            <p>Hello, <strong th:text="${user.name}"></strong> (<span th:text="${user.email}"></span>)</p>
+            <a th:href="@{/logout}" class="logout-btn">Logout</a>
+        </div>
+        
+        <div th:if="${user}" class="app-content">
+            <h2>Your Calorie Tracker</h2>
+            <p>This is where your calorie tracking app will be implemented.</p>
+            <p>Features coming soon:</p>
+            <ul>
+                <li>Track daily calories</li>
+                <li>Set calorie goals</li>
+                <li>Food database</li>
+                <li>Nutrition analysis</li>
+            </ul>
+        </div>
+        
+        <div th:unless="${user}" class="auth-buttons">
+            <p>Please login or register to use CalorieCompass</p>
+            <div class="button-group">
+                <a th:href="@{/login}" class="btn">Login</a>
+                <a th:href="@{/register}" class="btn">Register</a>
+            </div>
+        </div>
+        
+        <div th:unless="${user}" class="info-section">
+            <h2>Track Your Nutrition Journey</h2>
+            <p>CalorieCompass helps you track your calories and nutrition with ease.</p>
+        </div>
+    </div>
+</body>
+</html>
