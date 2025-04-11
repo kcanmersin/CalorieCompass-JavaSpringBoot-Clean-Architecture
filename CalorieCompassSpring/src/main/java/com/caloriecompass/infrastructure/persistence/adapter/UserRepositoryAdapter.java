@@ -40,24 +40,24 @@ public class UserRepositoryAdapter implements UserRepository {
     }
     
     private UserEntity toUserEntity(User user) {
-        return UserEntity.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .name(user.getName())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .build();
+        UserEntity entity = new UserEntity();
+        entity.id = user.getId();
+        entity.email = user.getEmail();
+        entity.password = user.getPassword();
+        entity.name = user.getName();
+        entity.createdAt = user.getCreatedAt();
+        entity.updatedAt = user.getUpdatedAt();
+        return entity;
     }
     
     private User toUser(UserEntity userEntity) {
         return User.builder()
-                .id(userEntity.getId())
-                .email(userEntity.getEmail())
-                .password(userEntity.getPassword())
-                .name(userEntity.getName())
-                .createdAt(userEntity.getCreatedAt())
-                .updatedAt(userEntity.getUpdatedAt())
+                .id(userEntity.id)
+                .email(userEntity.email)
+                .password(userEntity.password)
+                .name(userEntity.name)
+                .createdAt(userEntity.createdAt)
+                .updatedAt(userEntity.updatedAt)
                 .build();
     }
 }

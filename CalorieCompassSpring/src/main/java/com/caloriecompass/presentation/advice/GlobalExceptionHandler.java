@@ -2,6 +2,8 @@ package com.caloriecompass.presentation.advice;
 
 import com.caloriecompass.application.exception.InvalidCredentialsException;
 import com.caloriecompass.application.exception.UserAlreadyExistsException;
+
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ import java.util.Map;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -29,7 +31,7 @@ public class GlobalExceptionHandler {
         });
         return errors;
     }
-    
+
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UserAlreadyExistsException.class)
     public Map<String, String> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
@@ -37,7 +39,7 @@ public class GlobalExceptionHandler {
         error.put("error", ex.getMessage());
         return error;
     }
-    
+
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(InvalidCredentialsException.class)
     public Map<String, String> handleInvalidCredentialsException(InvalidCredentialsException ex) {
@@ -45,7 +47,7 @@ public class GlobalExceptionHandler {
         error.put("error", ex.getMessage());
         return error;
     }
-    
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
         log.error("Unhandled exception", ex);

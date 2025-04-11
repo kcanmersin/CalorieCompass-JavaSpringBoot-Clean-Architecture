@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EntityScan("com.caloriecompass.infrastructure.persistence.entity")
-@EnableJpaRepositories("com.caloriecompass.infrastructure.persistence.repository")
+@EntityScan(basePackages = "com.caloriecompass.infrastructure.persistence.entity")
+@EnableJpaRepositories(basePackages = "com.caloriecompass.infrastructure.persistence.repository")
 public class DatabaseConfig {
 }
