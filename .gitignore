@@ -75,3 +75,4 @@ application-prod.yml
 src/main/resources/application-local.yml
 *.env
 CalorieCompassSpring/src/main/resources/application.yml
+CalorieCompassSpring/src/main/resources/application.yml

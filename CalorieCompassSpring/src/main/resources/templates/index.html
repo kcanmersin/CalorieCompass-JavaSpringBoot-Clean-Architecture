@@ -17,14 +17,42 @@
         
         <div th:if="${user}" class="app-content">
             <h2>Your Calorie Tracker</h2>
-            <p>This is where your calorie tracking app will be implemented.</p>
-            <p>Features coming soon:</p>
-            <ul>
-                <li>Track daily calories</li>
-                <li>Set calorie goals</li>
-                <li>Food database</li>
-                <li>Nutrition analysis</li>
-            </ul>
+            
+            <div class="feature-tiles">
+                <div class="feature-tile">
+                    <h3>Food Search</h3>
+                    <p>Search our extensive food database to find nutritional information.</p>
+                    <a th:href="@{/foods/search}" class="btn">Search Foods</a>
+                </div>
+                
+                <div class="feature-tile">
+                    <h3>Track Your Meals</h3>
+                    <p>Log your daily meals and track your nutrition intake.</p>
+                    <a href="#" class="btn disabled">Coming Soon</a>
+                </div>
+                
+                <div class="feature-tile">
+                    <h3>Set Goals</h3>
+                    <p>Set and track your nutrition and calorie goals.</p>
+                    <a href="#" class="btn disabled">Coming Soon</a>
+                </div>
+            </div>
+            
+            <div class="feature-description">
+                <h3>Features available now:</h3>
+                <ul>
+                    <li>Search our food database powered by FatSecret API</li>
+                    <li>View detailed nutrition information for foods</li>
+                </ul>
+                
+                <h3>Features coming soon:</h3>
+                <ul>
+                    <li>Track daily calories</li>
+                    <li>Set calorie goals</li>
+                    <li>Meal planning</li>
+                    <li>Nutrition analysis</li>
+                </ul>
+            </div>
         </div>
         
         <div th:unless="${user}" class="auth-buttons">
@@ -38,6 +66,16 @@
         <div th:unless="${user}" class="info-section">
             <h2>Track Your Nutrition Journey</h2>
             <p>CalorieCompass helps you track your calories and nutrition with ease.</p>
+            
+            <div class="features-preview">
+                <h3>Features:</h3>
+                <ul>
+                    <li>Extensive food database powered by FatSecret API</li>
+                    <li>Detailed nutrition information</li>
+                    <li>Daily calorie tracking</li>
+                    <li>Personalized goals</li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

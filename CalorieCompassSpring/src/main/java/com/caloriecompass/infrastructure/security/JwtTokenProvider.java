@@ -12,40 +12,49 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.util.Date;
-import java.util.Base64;
 
 @Slf4j
 @Component
 public class JwtTokenProvider {
 
-    private SecretKey secretKey;
+    private final SecretKey secretKey;
     private final long validityInMilliseconds;
     private final UserDetailsService userDetailsService;
 
-    // Inside JwtTokenProvider.java constructor
     public JwtTokenProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration}") long validityInMilliseconds,
             UserDetailsService userDetailsService) {
 
-        // If the provided secret is too short, generate a secure one
-        if (secret == null || secret.length() < 32 || "your-super-long-secure-secret-key-here".equals(secret)) {
-            log.warn("Generated a new secure JWT secret key due to insufficient provided key");
-            // Generate a secure key (this is important - use the same key for the entire
-            // application lifecycle)
-            byte[] keyBytes = new byte[64];
-            new SecureRandom().nextBytes(keyBytes);
-            secret = Base64.getEncoder().encodeToString(keyBytes);
+        log.debug("Initializing JwtTokenProvider with secret key length: {}, validity: {} ms",
+                secret != null ? secret.length() : 0, validityInMilliseconds);
+
+        // Use a consistent key
+        if (secret == null || secret.isEmpty()) {
+            log.warn("No JWT secret configured, using default secret (NOT SECURE FOR PRODUCTION)");
+            secret = "default-very-long-and-secure-key-for-development-only-do-not-use-in-production";
         }
 
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        // Ensure the key is at least 256 bits (32 bytes) for HS256
+        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        if (keyBytes.length < 32) {
+            log.warn("Secret key is too short, padding to secure length");
+            byte[] paddedKey = new byte[32];
+            System.arraycopy(keyBytes, 0, paddedKey, 0, keyBytes.length);
+            // Fill rest with zeros
+            secretKey = Keys.hmacShaKeyFor(paddedKey);
+        } else {
+            secretKey = Keys.hmacShaKeyFor(keyBytes);
+        }
+
         this.validityInMilliseconds = validityInMilliseconds;
         this.userDetailsService = userDetailsService;
     }
 
     public String createToken(Long userId, String email) {
+        log.debug("Creating JWT token for user ID: {}, email: {}", userId, email);
+
         Claims claims = Jwts.claims();
         claims.put("user_id", userId);
         claims.put("email", email);

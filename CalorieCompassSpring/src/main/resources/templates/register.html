@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - CalorieCompass</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script>
+        // Debug script to check form submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    console.log('Form submission - Email:', form.email.value);
+                    console.log('Form submission - Name:', form.name.value);
+                    console.log('Form submission - Password length:', form.password.value.length);
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Register for CalorieCompass</h1>
         
+        <!-- Improved error display with more details -->
         <div th:if="${error}" class="error">
             <p th:text="${error}"></p>
+            <p>Please check your information and try again.</p>
         </div>
         
-        <form method="POST" th:action="@{/register}">
+        <form method="POST" th:action="@{/register}" id="registrationForm">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -28,6 +43,7 @@
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required minlength="6">
+                <small>Password must be at least 6 characters long</small>
             </div>
             
             <div class="form-group">

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Search - CalorieCompass</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Food Search</h1>
+        
+        <form method="GET" th:action="@{/foods/search}" class="search-form">
+            <div class="form-group">
+                <label for="query">Search for food:</label>
+                <input type="text" id="query" name="query" th:value="${query}" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        
+        <div th:if="${foods}" class="search-results">
+            <h2>Search Results</h2>
+            
+            <div th:if="${foods.empty}" class="no-results">
+                <p>No foods found for '<span th:text="${query}"></span>'.</p>
+            </div>
+            
+            <div th:unless="${foods.empty}" class="food-list">
+                <div th:each="food : ${foods}" class="food-item">
+                    <h3><a th:href="@{/foods/{id}(id=${food.id})}" th:text="${food.name}"></a></h3>
+                    <p th:if="${food.brand}" class="food-brand" th:text="${food.brand}"></p>
+                    <p th:if="${food.description}" class="food-description" th:text="${food.description}"></p>
+                </div>
+                
+                <div class="pagination">
+                    <a th:if="${page > 0}" th:href="@{/foods/search(query=${query}, page=${page - 1}, size=${size})}" class="pagination-prev">Previous</a>
+                    <span class="pagination-current" th:text="${page + 1}"></span>
+                    <a th:href="@{/foods/search(query=${query}, page=${page + 1}, size=${size})}" class="pagination-next">Next</a>
+                </div>
+            </div>
+        </div>
+        
+        <p><a th:href="@{/}" class="back-link">Back to Home</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${food.name} + ' - CalorieCompass'">Food Details - CalorieCompass</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .nutrition-info {
+            margin-top: 2rem;
+        }
+        
+        .nutrition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .nutrition-table th,
+        .nutrition-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .nutrition-table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+        
+        .serving-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .serving-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="${food.name}">Food Name</h1>
+        
+        <div class="food-details">
+            <p th:if="${food.brand}" class="food-brand">
+                <strong>Brand:</strong> <span th:text="${food.brand}"></span>
+            </p>
+            
+            <p th:if="${food.description}" class="food-description">
+                <span th:text="${food.description}"></span>
+            </p>
+        </div>
+        
+        <div class="nutrition-info">
+            <h2>Nutrition Information</h2>
+            
+            <div th:if="${nutritionInfoList.empty}" class="no-nutrition">
+                <p>No nutrition information available for this food.</p>
+            </div>
+            
+            <div th:unless="${nutritionInfoList.empty}">
+                <div th:each="nutrition : ${nutritionInfoList}" class="serving-section">
+                    <h3 class="serving-title" th:text="${nutrition.servingDescription}">Serving Size</h3>
+                    
+                    <table class="nutrition-table">
+                        <tr>
+                            <th>Nutrient</th>
+                            <th>Amount</th>
+                        </tr>
+                        <tr>
+                            <td>Calories</td>
+                            <td th:text="${nutrition.calories}">0</td>
+                        </tr>
+                        <tr>
+                            <td>Carbohydrates</td>
+                            <td th:text="${nutrition.carbohydrates} + ' g'">0 g</td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td th:text="${nutrition.protein} + ' g'">0 g</td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td th:text="${nutrition.fat} + ' g'">0 g</td>
+                        </tr>
+                        <tr th:if="${nutrition.saturatedFat}">
+                            <td>Saturated Fat</td>
+                            <td th:text="${nutrition.saturatedFat} + ' g'">0 g</td>
+                        </tr>
+                        <tr th:if="${nutrition.transFat}">
+                            <td>Trans Fat</td>
+                            <td th:text="${nutrition.transFat} + ' g'">0 g</td>
+                        </tr>
+                        <tr th:if="${nutrition.cholesterol}">
+                            <td>Cholesterol</td>
+                            <td th:text="${nutrition.cholesterol} + ' mg'">0 mg</td>
+                        </tr>
+                        <tr th:if="${nutrition.sodium}">
+                            <td>Sodium</td>
+                            <td th:text="${nutrition.sodium} + ' mg'">0 mg</td>
+                        </tr>
+                        <tr th:if="${nutrition.fiber}">
+                            <td>Fiber</td>
+                            <td th:text="${nutrition.fiber} + ' g'">0 g</td>
+                        </tr>
+                        <tr th:if="${nutrition.sugar}">
+                            <td>Sugar</td>
+                            <td th:text="${nutrition.sugar} + ' g'">0 g</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <p>
+            <a th:href="@{/foods/search(query=${food.name})}" class="back-link">Back to Search</a>
+            <a th:href="@{/}" class="back-link">Back to Home</a>
+        </p>
+    </div>
+</body>
+</html>
